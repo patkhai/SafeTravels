@@ -6,9 +6,13 @@
   <head>
     <meta charset="utf-8" />
     <title>Details</title>
-    <meta content="Features" property="og:title" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Webflow" name="generator" />
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
     <link href="css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="css/webflow.css" rel="stylesheet" type="text/css" />
     <link
@@ -16,6 +20,11 @@
       rel="stylesheet"
       type="text/css"
     />
+    <link href="css/style.webflow.css" rel="stylesheet" type="text/css" />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"
+      type="text/javascript"
+    ></script>
     <script
       src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
       type="text/javascript"
@@ -41,26 +50,15 @@
             (n.className += t + "touch");
       })(window, document);
     </script>
-    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link href="images/webclip.png" rel="apple-touch-icon" />
-    <style>
-      body {
-        -moz-font-feature-settings: "liga" on;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        font-feature-settings: "liga" on;
-        text-rendering: optimizeLegibility;
-      }
-    </style>
   </head>
-  <body>
+  <body class="body">
     <div class="header-inner">
       <div class="container">
         <div class="header-inner-content">
           <div class="inner-category">
             <a href="../mapComponents.html" class="h3 cc-header">&lt; Back</a>
           </div>
-          <h1 class="h1" id="Country"></h1>
+          <h1 class="h1" id="Country">China</h1>
           <p class="paragraph">
             Here are the result of the current country information for your
             travel needs.
@@ -74,63 +72,220 @@
           <h3 class="heading1">Overview</h3>
           <div class="text-block-2">Travel Warnings</div>
           <p class="paragraph-6" id="saftey-level-description">
-            No Travel Warnings.
+            CDC recommends that travelers avoid all nonessential travel to the People.
           </p>
           <div class="text-block-2">Health Warnings</div>
           <p class="paragraph-6" id="health-warning-descripton">
-            No Health Warnings.
+            Novel Coronavirus Outbreak.
           </p>
         </div>
       </div>
     </div>
-    <div class="features cards">
-      <div class="container-3 w-container">
-        <div class="w-row">
-          <div class="w-col w-col-6">
-            <div class="_2">
-              <h3 class="heading-3">Travel Awareness</h3>
-              <img
-                src="images/plane-illustration-png.png"
-                width="306"
-                alt=""
-                class="grid-image"
-              />
-              <div class="text-block-2" id="saftey-level">Danger Level</div>
-              <p class="paragraph-5"id="saftey-level-blurb">Practice Usual Precautions.</p>
+      <div class="features cards">
+        <div class="container-3 w-container">
+          <div class="w-row">
+            <div class="w-col w-col-6">
+              <div id="w-node-c3ae34f1b967-cd3c3950" class="_2">
+                <h3 class="heading-3">Travel Awareness</h3>
+                <img
+                  src="images/plane-illustration-png.png"
+                  width="306"
+                  alt=""
+                  class="grid-image"
+                />
+                <div class="text-block-2" id="saftey-level">Danger Level</div>
+                <p class="paragraph-5" id="saftey-level-blurb">
+                  Practice Usual Precautions.
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="w-col w-col-6">
-            <div class="_2">
-              <h3 class="heading-2" >Health Awareness</h3>
-              <img src="images/hea.png" width="210" alt="" class="grid-image" />
-              <div class="text-block-2" id="health-level">No Major Health Concerns</div>
-              <p class="paragraph-4" id="health-level-blurb">
-                Practice Usual Precautions.
-              </p>
+            <div class="w-col w-col-6">
+              <div id="w-node-7ea158824423-cd3c3950" class="_2">
+                <h3 class="heading-2">Health Awareness</h3>
+                <img
+                  src="images/hea.png"
+                  width="210"
+                  alt=""
+                  class="grid-image"
+                />
+                <div class="text-block-2" id="health-level">
+                  No Major Health Concerns
+                </div>
+                <p class="paragraph-4" id="health-level-blurb">
+                  Practice Usual Precautions.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="asd asdas">
-      <div class="container-4 w-container">
-        <div class="_2">
-          <h3 class="heading1">Vaccinations</h3>
+      <div class="section">
+        <div class="card">
+          <h2 class="heading-3">Vaccinations</h2>
           <div class="html-embed w-embed">
             <div style="overflow-x: auto;">
-              <table style="width:100%" id="vaccine-table"></table>
+              <table style="width:100%" id="vaccine-table">
+                <tbody>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Routine
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Make sure you are up-to-date on routine vaccines before
+                      every trip. These vaccines include measles-mumps-rubella
+                      (MMR) vaccine, diphtheria-tetanus-pertussis vaccine,
+                      varicella (chickenpox) vaccine, polio vaccine, and your
+                      yearly flu shot.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Yellow Fever
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      If you are traveling from a country other than the US,
+                      check with a doctor or the CDC to see if you may be
+                      required to get the yellow fever vaccine.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Hepatitis A
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      CDC recommends this vaccine because you can get hepatitis
+                      A through contaminated food or water, regardless of where
+                      you are eating or staying.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Malaria
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      You may need to take prescription medicine before, during,
+                      and after your trip to prevent malaria, especially if you
+                      are visiting low-altitude areas.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Typhoid
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      You can get typhoid through contaminated food or water.
+                      CDC recommends this vaccine for most travelers, especially
+                      if you are staying with friends or relatives, visiting
+                      smaller cities or rural areas, or if you are an
+                      adventurous eater.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Cholera
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      CDC recommends this vaccine for adults who are traveling
+                      to areas of active cholera transmission.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Hepatitis B
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      You can get hepatitis B through sexual contact,
+                      contaminated needles, and blood products, so CDC
+                      recommends this vaccine if you might have sex with a new
+                      partner, get a tattoo or piercing, or have any medical
+                      procedures.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Meningococcal disease
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      CDC recommends this vaccine if you plan to visit areas
+                      located in the meningitis belt during the dry season
+                      (December–June), when the disease is most common.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Poliomyelitis
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      You may need a polio vaccine before your trip.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Rabies
+                    </td>
+                    <td
+                      style="padding:12px;text-align: left; color: #58585f;font-family: 'Lato', sans-serif;"
+                    >
+                      Although rabies can be found in dogs, bats, and other
+                      mammals, it is not a major risk to most travelers. A
+                      vaccine is recommended if travelers are involved in
+                      outdoor and other activities in remote areas that put them
+                      at risk for animal bites (such as adventure travel and
+                      caving).
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
     <script
-      src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js"
+      src="https://d1tdp7z6w94jbb.cloudfront.net/js/jquery-3.3.1.min.js"
       type="text/javascript"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"
     ></script>
     <script src="js/webflow.js" type="text/javascript"></script>
   </body>
-  <script src="js/components.js"></script>
+  <script src="js/component.js.js"></script>
 </html>

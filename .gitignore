@@ -1,2 +1,13 @@
 .vscode
 /venv
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+firebase-debug.log*
+
+
+/public/js/index.js
