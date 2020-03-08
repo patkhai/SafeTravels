@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>Travel Map</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/css/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        //*** ADD ***//
+        "esri/layers/FeatureLayer",
+        "dojo/domReady!"
+        //*** ADD ***//
+      ], function(Map, MapView, FeatureLayer) {
+        var map = new Map({
+          basemap: "gray"
+        });
+
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [0, 0],
+          zoom: 3
+        });
+        //*** ADD ***//
+        // Define a popup for Trailheads
+        var popupTrailheads = {
+          title: "{NAME}",
+          content:
+            "<b>Travel Advisory Level:</b> {LEVEL_} <br> {NAME:healthAdvisory} <br> {NAME:buttonLink}"
+        };
+
+        // Create the layer and set the popup
+        var trailheads = new FeatureLayer({
+          url:
+            "https://services6.arcgis.com/R6wlO6UHmSzqm9Vs/arcgis/rest/services/Travel_Advisory_Levels_viewOnlyVectors/FeatureServer/0",
+          outFields: ["NAME", "LEVEL_"],
+          popupTemplate: popupTrailheads
+        });
+
+        // Add the layer
+        map.add(trailheads);
+      });
+    </script>
+  </head>
+  <body>
+    <div>
+      <form action="index.html" class="search w-form">
+        <input
+          type="search"
+          id="search"
+          maxlength="256"
+          name="name"
+          placeholder="Where are you planning to travel?"
+          required=""
+          class="search-input w-input"
+        />
+        <div>
+          <img
+            src="/images/ic_search.png"
+            width="30"
+            alt=""
+            class="image-3"
+          /><input
+            type="submit"
+            class="search-button w-button"
+            id="submit-button"
+            value=""
+          />
+        </div>
+      </form>
+    </div>
+    <div id="viewDiv" style="height:94%;"></div>
+  </body>
+  <script>
+    var healthData = {};
+    mexicoStates = [
+      "Aguascalientes",
+      "Baja California",
+      "Baja California Sur",
+      "Chihuahua",
+      "Colima",
+      "Campeche",
+      "Coahuila",
+      "Chiapas",
+      "Distrito Federal",
+      "Durango",
+      "Guerrero",
+      "Guanajuato",
+      "Hidalgo",
+      "Jalisco",
+      "México",
+      "Michoacán",
+      "Morelos",
+      "Nayarit",
+      "Nuevo León",
+      "Oaxaca",
+      "Puebla",
+      "Querétaro",
+      "Quintana Roo",
+      "Sinaloa",
+      "San Luis Potosí",
+      "Sonora",
+      "Tabasco",
+      "Tlaxcala",
+      "Tamaulipas",
+      "Veracruz",
+      "Yucatán",
+      "Zacatecas"
+    ];
+    healthAdvisory = function(value, key, data) {
+      country = value.toLowerCase();
+      if (mexicoStates.includes(data.NAME)) {
+        country = "mexico";
+      }
+      if (healthData[country] != undefined) {
+        return "<b>Health Data:</b> " + healthData[country];
+      }
+      return "";
+    };
+    buttonLink = function(value, key, data) {
+      country = value;
+      if (mexicoStates.includes(data.NAME)) {
+        country = "Mexico";
+      }
+      return (
+        '<a href="index.html?name=' +
+        country +
+        '"><button>More Info</button></a>'
+      );
+    };
+  </script>
+</html>
