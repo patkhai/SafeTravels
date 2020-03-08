@@ -5,7 +5,7 @@
       name="viewport"
       content="initial-scale=1, maximum-scale=1, user-scalable=no"
     />
-    <title>Travel Map</title>
+    <title>World Map</title>
     <style>
       html,
       body,
@@ -13,14 +13,25 @@
         padding: 0;
         margin: 0;
         width: 100%;
+        height:100%; 
       }
     </style>
 
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/4.14/esri/css/main.css"
+      href="https://js.arcgis.com/4.14/esri/themes/dark/main.css"
     />
     <script src="https://js.arcgis.com/4.14/"></script>
+
+    <link rel="stylesheet" href="esriMap/css/webflow.css" type="text/css" />
+    <link rel="stylesheet" href="esriMap/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="esriMap/css/search-bar.css" type="text/css" />
+    <link
+      href="esriMap/images/soteria_mountain.png"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link href="esriMap/images/soteria_mountain.png" rel="apple-touch-icon" />
 
     <script>
       require([
@@ -28,11 +39,12 @@
         "esri/views/MapView",
         //*** ADD ***//
         "esri/layers/FeatureLayer",
-        "dojo/domReady!"
+        "dojo/domReady!",
+        "esri/widgets/Search"
         //*** ADD ***//
-      ], function(Map, MapView, FeatureLayer) {
+      ], function(Map, MapView, FeatureLayer, Search) {
         var map = new Map({
-          basemap: "gray"
+          basemap: "streets-night-vector"
         });
 
         var view = new MapView({
@@ -46,7 +58,7 @@
         var popupTrailheads = {
           title: "{NAME}",
           content:
-            "<b>Travel Advisory Level:</b> {LEVEL_} <br> {NAME:healthAdvisory} <br> {NAME:buttonLink}"
+            "<b>Travel Warnings Level:</b> {LEVEL_} <br> {NAME:healthAwareness} <br> {NAME:buttonLink}"
         };
 
         // Create the layer and set the popup
@@ -63,36 +75,122 @@
     </script>
   </head>
   <body>
-    <div>
-      <form action="index.html" class="search w-form">
+    <div id="viewDiv"></div>
+    <div class="esri-search__input-container esri-ui-top-right esri-ui-corner" style="margin-top: 100; margin-right: 100;">
+      <form action="esriMap/index.html"  class="esri-search__form" role="search">
         <input
-          type="search"
-          id="search"
-          maxlength="256"
-          name="name"
-          placeholder="Where are you planning to travel?"
-          required=""
-          class="search-input w-input"
+          type="text"
+          placeholder="Find address or place"
+          aria-label="Search"
+          autocomplete="off"
+          tabindex="0"
+          class="esri-input esri-search__input"
+          aria-autocomplete="list"
+          aria-haspopup="true"
+          aria-owns="170b49d0089-widget-1-suggest-menu"
+          role="textbox"
+          data-node-ref="_inputNode"
+          title="Find address or place"
         />
-        <div>
-          <img
-            src="/images/ic_search.png"
-            width="30"
-            alt=""
-            class="image-3"
-          /><input
-            type="submit"
-            class="search-button w-button"
-            id="submit-button"
-            value=""
-          />
-        </div>
       </form>
+    <div
+      role="button"
+      title="Search"
+      class="esri-search__submit-button esri-widget--button"
+      tabindex="0"
+    >
+      <span
+        aria-hidden="true"
+        role="presentation"
+        class="esri-icon-search"
+      ></span
+      ><span class="esri-icon-font-fallback-text">Search</span>
     </div>
-    <div id="viewDiv" style="height:94%;"></div>
+    </div>
+ 
   </body>
   <script>
-    var healthData = {};
+    var healthData = {
+  Bosnia: "Watch  Level 1, Practice Usual Precautions",
+  Brazil: "Watch  Level 1, Practice Usual Precautions",
+  Benin: "Watch  Level 1, Practice Usual Precautions",
+  Belgium: "Watch  Level 1, Practice Usual Precautions",
+  Belize: "Watch  Level 1, Practice Usual Precautions",
+  Uruguay: "Watch  Level 1, Practice Usual Precautions",
+  Tonga: "Watch  Level 1, Practice Usual Precautions",
+  Turkey: "Watch  Level 1, Practice Usual Precautions",
+  Tanzania: "Watch  Level 1, Practice Usual Precautions",
+  Switzerland: "Watch  Level 1, Practice Usual Precautions",
+  "Sri lanka": "Watch  Level 1, Practice Usual Precautions",
+  Slovenia: "Watch  Level 1, Practice Usual Precautions",
+  Singapore: "Watch  Level 1, Practice Usual Precautions",
+  Slovakia: "Watch  Level 1, Practice Usual Precautions",
+  Reunion: "Watch  Level 1, Practice Usual Precautions",
+  Russia: "Watch  Level 1, Practice Usual Precautions",
+  Portugal: "Watch  Level 1, Practice Usual Precautions",
+  Poland: "Watch  Level 1, Practice Usual Precautions",
+  Philippines: "Watch  Level 1, Practice Usual Precautions",
+  Peru: "Watch  Level 1, Practice Usual Precautions",
+  Paraguay: "Watch  Level 1, Practice Usual Precautions",
+  Pakistan: "Watch  Level 1, Practice Usual Precautions",
+  Palau: "Watch  Level 1, Practice Usual Precautions",
+  Norway: "Watch  Level 1, Practice Usual Precautions",
+  Nigeria: "Watch  Level 1, Practice Usual Precautions",
+  "North macedonia": "Watch  Level 1, Practice Usual Precautions",
+  Nicaragua: "Watch  Level 1, Practice Usual Precautions",
+  Nepal: "Watch  Level 1, Practice Usual Precautions",
+  Netherlands: "Watch  Level 1, Practice Usual Precautions",
+  Micronesia: "Watch  Level 1, Practice Usual Precautions",
+  Mexico: "Watch  Level 1, Practice Usual Precautions",
+  Malta: "Watch  Level 1, Practice Usual Precautions",
+  "Marshall islands": "Watch  Level 1, Practice Usual Precautions",
+  Malaysia: "Watch  Level 1, Practice Usual Precautions",
+  Luxembourg: "Watch  Level 1, Practice Usual Precautions",
+  Lithuania: "Watch  Level 1, Practice Usual Precautions",
+  Kyrgyzstan: "Watch  Level 1, Practice Usual Precautions",
+  Honduras: "Watch  Level 1, Practice Usual Precautions",
+  "Hong kong sar": "Watch  Level 1, Practice Usual Precautions",
+  Guam: "Watch  Level 1, Practice Usual Precautions",
+  Greece: "Watch  Level 1, Practice Usual Precautions",
+  Guatemala: "Watch  Level 1, Practice Usual Precautions",
+  Ethiopia: "Watch  Level 1, Practice Usual Precautions",
+  "United kingdom": "Watch  Level 1, Practice Usual Precautions",
+  "Dominican republic": "Watch  Level 1, Practice Usual Precautions",
+  "El salvador": "Watch  Level 1, Practice Usual Precautions",
+  "Democratic republic of congo": "Watch  Level 1, Practice Usual Precautions",
+  "Ivory coast": "Watch  Level 1, Practice Usual Precautions",
+  "Costa rica": "Watch  Level 1, Practice Usual Precautions",
+  "Cook islands": "Watch  Level 1, Practice Usual Precautions",
+  Colombia: "Watch  Level 1, Practice Usual Precautions",
+  Burundi: "Watch  Level 1, Practice Usual Precautions",
+  Bangladesh: "Watch  Level 1, Practice Usual Precautions",
+  "French polynesia": "Watch  Level 1, Practice Usual Precautions",
+  "Benin": "Alert  Level 2, Practice Enhanced Precautions",
+  "Chad": "Alert  Level 2, Practice Enhanced Precautions",
+  "Zambia": "Alert  Level 2, Practice Enhanced Precautions",
+  "Togo": "Alert  Level 2, Practice Enhanced Precautions",
+  "Somalia": "Alert  Level 2, Practice Enhanced Precautions",
+  "Philippines": "Alert  Level 2, Practice Enhanced Precautions",
+  "Papua new guinea": "Alert  Level 2, Practice Enhanced Precautions",
+  "Nigeria": "Alert  Level 2, Practice Enhanced Precautions",
+  "Niger": "Alert  Level 2, Practice Enhanced Precautions",
+  "Mozambique": "Alert  Level 2, Practice Enhanced Precautions",
+  "Japan": "Alert  Level 2, Practice Enhanced Precautions",
+  "Indonesia": "Alert  Level 2, Practice Enhanced Precautions",
+  "Ghana": "Alert  Level 2, Practice Enhanced Precautions",
+  "Ethiopia": "Alert  Level 2, Practice Enhanced Precautions",
+  "Democratic republic of congo": "Alert  Level 2, Practice Enhanced Precautions",
+  "Central african republic": "Alert  Level 2, Practice Enhanced Precautions",
+  "Cameroon": "Alert  Level 2, Practice Enhanced Precautions",
+  "Burma": "Alert  Level 2, Practice Enhanced Precautions",
+  "Burkina faso": "Alert  Level 2, Practice Enhanced Precautions",
+  "Angola": "Alert  Level 2, Practice Enhanced Precautions",
+  "Venezuela": "Warning Level 3, Avoid Nonessential Travel",
+  "South korea": "Warning Level 3, Avoid Nonessential Travel",
+  "Iran": "Warning Level 3, Avoid Nonessential Travel",
+  "Italy": "Warning Level 3, Avoid Nonessential Travel",
+  "China": "Warning Level 3, Avoid Nonessential Travel"
+    };
     mexicoStates = [
       "Aguascalientes",
       "Baja California",
@@ -127,13 +225,13 @@
       "Yucatán",
       "Zacatecas"
     ];
-    healthAdvisory = function(value, key, data) {
+    healthAwareness = function(value, key, data) {
       country = value.toLowerCase();
       if (mexicoStates.includes(data.NAME)) {
         country = "mexico";
       }
       if (healthData[country] != undefined) {
-        return "<b>Health Data:</b> " + healthData[country];
+        return "<b>Health Awareness:</b> " + healthData[country];
       }
       return "";
     };
@@ -143,7 +241,7 @@
         country = "Mexico";
       }
       return (
-        '<a href="index.html?name=' +
+        '<a href="esriMap/index.html?name=' +
         country +
         '"><button>More Info</button></a>'
       );
