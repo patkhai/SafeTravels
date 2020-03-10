@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="esriMap/css/normalize.css" type="text/css" />
    
     <script src="https://js.arcgis.com/4.10/"></script>
+    <script src="https://js.arcgis.com/4.14/"></script>
 
     <script>
       require([
@@ -46,9 +47,24 @@
         var view = new MapView({
           container: "viewDiv",
           map: map,
-          center: [2, 2],
-          zoom: 3
+          center: [-20, 35],
+          zoom: 2
         });
+
+        function popupContent () {
+          return "<b>Last Update: </b> {Last_Update} <br> <b>Confirmed:</b> {Confirmed}<br> <b>Deaths:</b> {Deaths}<br> <b>Recovered:</b> {Recovered}";
+        }
+        
+        var lyr = new FeatureLayer({
+          url: "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer/1",
+          outFields: ["*"],
+          popupTemplate: {
+            title: "Coranavirus Data: ",
+            content: popupContent
+          },
+          
+        });
+        
         //*** ADD ***//
         // Define a popup for Trailheads
         var popupTrailheads = {
@@ -67,6 +83,7 @@
 
         // Add the layer
         map.add(trailheads);
+        map.add(lyr);
       });
     </script>
   </head>
