@@ -27,10 +27,12 @@
     />
     <link rel="stylesheet" href="esriMap/css/webflow.css" type="text/css" />
     <link rel="stylesheet" href="esriMap/css/normalize.css" type="text/css" />
-   
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.css">
+    
     <script src="https://js.arcgis.com/4.10/"></script>
     <script src="https://js.arcgis.com/4.14/"></script>
-
+    
     <script>
       require([
         "esri/Map",
@@ -52,7 +54,7 @@
         });
 
         function popupContent () {
-          return "<b>Last Update: </b> {Last_Update} <br> <b>Confirmed:</b> {Confirmed}<br> <b>Deaths:</b> {Deaths}<br> <b>Recovered:</b> {Recovered}";
+          return "<b>Last Update: </b> {Last_Update} <br> <b>Confirmed:</b> {Confirmed}<br> <b>Deaths:</b> {Deaths}<br> <b>Recovered:</b> {Recovered} <br>{NAME:buttonLink}";
         }
         
         var lyr = new FeatureLayer({
@@ -262,5 +264,19 @@
         '"><button style="color: blue;">More Info</button></a>'
       );
     };
+  </script>
+  <script type="module">
+    import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@8/src/sweetalert2.js'
+
+    var swal_alert = localStorage.getItem("alert"); 
+    if (swal_alert != 1) {  
+      Swal.fire({ 
+        title: "Welcome to SafeTravels",
+        icon: 'info',
+        showCloseButton: true, 
+        text: 'Point and Click on the map of your desired destination.'
+      })
+    }
+    localStorage.setItem("alert", "1");
   </script>
 </html>
