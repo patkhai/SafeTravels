@@ -269,12 +269,33 @@
     import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@8/src/sweetalert2.js'
 
     var swal_alert = localStorage.getItem("alert"); 
-    if (swal_alert != 1) {  
-      Swal.fire({ 
-        title: "Welcome to SafeTravels",
+    if (swal_alert != 1) { 
+      Swal.mixin({
         icon: 'info',
-        showCloseButton: true, 
+        showCancelButton: true,
+        confirmButtonText: 'Next &rarr;', 
+        progressSteps: ['1','2','3']
+      }).queue ([
+        {
+        title: "Welcome to SafeTravels",
+        text: 'Click here to learn how it works.'
+        },
+        {
+        title: "First Step",
         text: 'Point and Click on the map of your desired destination.'
+        },
+        {
+        title: "Last Step",
+        text: 'Click on "More Info" button to see more details about the travel destination.'
+        }
+      ]).then((result) => { 
+        if(result.value) { 
+          const answers = JSON.stringify(result.value)
+          Swal.fire({
+            title: "That's it!", 
+            confirmButtonText: 'Got it!'
+          })
+        }
       })
     }
     localStorage.setItem("alert", "1");
