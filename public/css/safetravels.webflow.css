@@ -3331,6 +3331,11 @@ figcaption {
   border-radius: 15px;
 }
 
+.search-button:hover {
+  background-color: #32343a;
+  color: #fff;
+}
+
 .header-2-copy {
   display: block;
   width: 300px;
